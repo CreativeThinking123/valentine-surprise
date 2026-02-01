@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>💘 Valentine</title>
+<title>Valentine</title>
 
 <style>
 *{
@@ -11,49 +11,40 @@
   box-sizing:border-box;
 }
 
-html, body{
+html,body{
   width:100%;
   height:100%;
   overflow:hidden;
-  font-family: "Georgia", serif;
-}
-
-/* BACKGROUND */
-body{
+  font-family:Georgia, serif;
   background:linear-gradient(135deg,#ff758f,#ff9a9e);
 }
 
-/* OVERLAY */
-.overlay{
-  width:100%;
+/* START SCREEN */
+.center{
   height:100%;
   display:flex;
   justify-content:center;
   align-items:center;
 }
 
-/* QUESTION CARD */
-.container{
+.box{
   text-align:center;
-  color:white;
+  background:rgba(0,0,0,0.4);
   padding:40px 50px;
   border-radius:20px;
-  background:rgba(0,0,0,0.35);
-  backdrop-filter:blur(6px);
+  color:white;
 }
 
-/* TEXT */
 h1{
   font-size:2.3em;
   margin-bottom:30px;
 }
 
-/* BUTTONS */
 button{
-  font-size:18px;
   padding:12px 30px;
   border:none;
   border-radius:30px;
+  font-size:18px;
   cursor:pointer;
   margin:10px;
 }
@@ -74,79 +65,97 @@ button{
   width:100%;
   height:100%;
   position:relative;
-  display:flex;
-  justify-content:center;
-  align-items:flex-end;
 }
 
 /* SILHOUETTES */
 .person{
   position:absolute;
-  bottom:60px;
-  width:120px;
+  bottom:80px;
+  width:80px;
+  height:160px;
+  background:black;
+  border-radius:40px 40px 20px 20px;
   transition:all 3s ease;
 }
 
-.boy{ left:-150px; }
-.girl{ right:-150px; }
+/* BOY & GIRL START */
+.boy{ left:-120px; }
+.girl{ right:-120px; }
 
+/* CENTER */
 .center-boy{ left:40%; }
 .center-girl{ right:40%; }
 
-.hug{ transform:scale(1.1); }
+/* HUG */
+.hug{
+  transform:scale(1.1);
+}
 
 /* ROSE */
 .rose{
   position:absolute;
-  bottom:160px;
+  bottom:200px;
   left:50%;
   transform:translateX(-50%);
   font-size:60px;
   opacity:0;
-  transition:opacity 1.5s ease;
+  transition:opacity 2s ease;
+}
+
+/* FOREVER TEXT */
+.text{
+  position:absolute;
+  top:18%;
+  width:100%;
+  text-align:center;
+  font-size:3em;
+  color:white;
+  opacity:0;
+  transition:opacity 2s ease;
 }
 </style>
 </head>
 
 <body>
 
-<div class="overlay" id="start">
-  <div class="container">
+<div class="center" id="start">
+  <div class="box">
     <h1>Will you be my Valentine? 💖</h1>
     <button id="yes">Yes</button>
     <button id="no">No</button>
   </div>
 </div>
 
+<!-- MUSIC -->
+<audio id="music" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7c36dfcdbc.mp3">
+</audio>
+
 <script>
 const noBtn = document.getElementById("no");
 const yesBtn = document.getElementById("yes");
-let tries = 0;
+const music = document.getElementById("music");
 
-/* NO BUTTON */
+/* NO BUTTON MOVES */
 function moveNo(){
-  tries++;
-  const x = Math.random() * (window.innerWidth - 120);
-  const y = Math.random() * (window.innerHeight - 80);
-  noBtn.style.left = x + "px";
-  noBtn.style.top = y + "px";
-
-  if(tries === 1) noBtn.innerText = "Are you sure? 😅";
-  if(tries === 2) noBtn.innerText = "Really? 😳";
-  if(tries >= 3) noBtn.innerText = "You can’t 😜";
+  noBtn.style.left = Math.random()*(window.innerWidth-100)+"px";
+  noBtn.style.top  = Math.random()*(window.innerHeight-100)+"px";
 }
 
 noBtn.addEventListener("mouseover", moveNo);
 noBtn.addEventListener("touchstart", moveNo);
 
 /* YES CLICK */
-yesBtn.addEventListener("click", () => {
+yesBtn.onclick = () => {
+  music.play();
+
   document.body.innerHTML = `
     <div class="scene">
-      <img id="boy" class="person boy"
-        src="https://i.imgur.com/QrKqG0R.png">
-      <img id="girl" class="person girl"
-        src="https://i.imgur.com/yM6J7bF.png">
+      <div class="text" id="text">Forever & Always 💞</div>
+
+      <div id="boy" class="person boy"></div>
+      <div id="girl" class="person girl"></div>
+
       <div id="rose" class="rose">🌹</div>
     </div>
   `;
@@ -154,21 +163,30 @@ yesBtn.addEventListener("click", () => {
   const boy = document.getElementById("boy");
   const girl = document.getElementById("girl");
   const rose = document.getElementById("rose");
+  const text = document.getElementById("text");
 
+  /* RUN */
   setTimeout(()=>{
     boy.classList.add("center-boy");
     girl.classList.add("center-girl");
   },500);
 
+  /* HUG */
   setTimeout(()=>{
     boy.classList.add("hug");
     girl.classList.add("hug");
-  },3800);
+  },3500);
 
+  /* ROSE */
   setTimeout(()=>{
     rose.style.opacity = 1;
   },5200);
-});
+
+  /* FOREVER TEXT */
+  setTimeout(()=>{
+    text.style.opacity = 1;
+  },6500);
+};
 </script>
 
 </body>
