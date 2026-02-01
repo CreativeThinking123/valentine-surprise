@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>💘 Valentine</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html, body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  font-family: "Georgia", serif;
+}
+
+/* BACKGROUND */
+body{
+  background:linear-gradient(135deg,#ff758f,#ff9a9e);
+}
+
+/* OVERLAY */
+.overlay{
+  width:100%;
+  height:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* QUESTION CARD */
+.container{
+  text-align:center;
+  color:white;
+  padding:40px 50px;
+  border-radius:20px;
+  background:rgba(0,0,0,0.35);
+  backdrop-filter:blur(6px);
+}
+
+/* TEXT */
+h1{
+  font-size:2.3em;
+  margin-bottom:30px;
+}
+
+/* BUTTONS */
+button{
+  font-size:18px;
+  padding:12px 30px;
+  border:none;
+  border-radius:30px;
+  cursor:pointer;
+  margin:10px;
+}
+
+#yes{
+  background:#ff4d6d;
+  color:white;
+}
+
+#no{
+  background:#333;
+  color:white;
+  position:absolute;
+}
+
+/* SCENE */
+.scene{
+  width:100%;
+  height:100%;
+  position:relative;
+  display:flex;
+  justify-content:center;
+  align-items:flex-end;
+}
+
+/* SILHOUETTES */
+.person{
+  position:absolute;
+  bottom:60px;
+  width:120px;
+  transition:all 3s ease;
+}
+
+.boy{ left:-150px; }
+.girl{ right:-150px; }
+
+.center-boy{ left:40%; }
+.center-girl{ right:40%; }
+
+.hug{ transform:scale(1.1); }
+
+/* ROSE */
+.rose{
+  position:absolute;
+  bottom:160px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:60px;
+  opacity:0;
+  transition:opacity 1.5s ease;
+}
+</style>
+</head>
+
+<body>
+
+<div class="overlay" id="start">
+  <div class="container">
+    <h1>Will you be my Valentine? 💖</h1>
+    <button id="yes">Yes</button>
+    <button id="no">No</button>
+  </div>
+</div>
+
+<script>
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+let tries = 0;
+
+/* NO BUTTON */
+function moveNo(){
+  tries++;
+  const x = Math.random() * (window.innerWidth - 120);
+  const y = Math.random() * (window.innerHeight - 80);
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+
+  if(tries === 1) noBtn.innerText = "Are you sure? 😅";
+  if(tries === 2) noBtn.innerText = "Really? 😳";
+  if(tries >= 3) noBtn.innerText = "You can’t 😜";
+}
+
+noBtn.addEventListener("mouseover", moveNo);
+noBtn.addEventListener("touchstart", moveNo);
+
+/* YES CLICK */
+yesBtn.addEventListener("click", () => {
+  document.body.innerHTML = `
+    <div class="scene">
+      <img id="boy" class="person boy"
+        src="https://i.imgur.com/QrKqG0R.png">
+      <img id="girl" class="person girl"
+        src="https://i.imgur.com/yM6J7bF.png">
+      <div id="rose" class="rose">🌹</div>
+    </div>
+  `;
+
+  const boy = document.getElementById("boy");
+  const girl = document.getElementById("girl");
+  const rose = document.getElementById("rose");
+
+  setTimeout(()=>{
+    boy.classList.add("center-boy");
+    girl.classList.add("center-girl");
+  },500);
+
+  setTimeout(()=>{
+    boy.classList.add("hug");
+    girl.classList.add("hug");
+  },3800);
+
+  setTimeout(()=>{
+    rose.style.opacity = 1;
+  },5200);
+});
+</script>
+
+</body>
+</html>
